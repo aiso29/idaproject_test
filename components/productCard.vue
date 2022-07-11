@@ -11,7 +11,7 @@
 				<h1>{{card.productName}}</h1>
 			</div>
 			<div class="card__text__description">
-				<p>{{card.productDescription}}</p>
+				<p>{{card.productDescription.length > 120 ? card.productDescription.slice(0, 120) + '...' : card.productDescription}}</p>
 			</div>
 			<div class="card__text__price">
 				<p>{{card.productPrice.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}} руб.</p>
@@ -56,9 +56,14 @@ export default {
 		height: 423px;
 		cursor: pointer;
 		margin: 0 8px 16px 8px;
+		transition: all .2s ease;
 
 		&:hover &__delete {
 			display: flex;
+		}
+
+		&:hover {
+			transform: scale(1.05);
 		}
 
 		&__delete {
@@ -102,6 +107,11 @@ export default {
 					font-size: 20px;
 					line-height: 25px;
 					color: #3F3F3F;
+
+					@media screen and (max-width: 649px) {
+						font-size: 16px;
+						line-height: 21px;
+					}
 				}
 			}
 
@@ -115,6 +125,11 @@ export default {
 					line-height: 20px;
 					color: #3F3F3F;
 					text-align: justify;
+
+					@media screen and (max-width: 649px) {
+						font-size: 13px;
+						line-height: 17px;
+					}
 				}
 			}
 
@@ -126,6 +141,11 @@ export default {
 					font-size: 24px;
 					line-height: 30px;
 					color: #3F3F3F;
+
+					@media screen and (max-width: 649px) {
+						font-size: 20px;
+						line-height: 26px;
+					}
 				}
 			}
 		}

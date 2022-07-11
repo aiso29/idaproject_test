@@ -1,9 +1,13 @@
 <template>
 	<div class="container">
-		<div class="container__header">
+		<div class="container__header" v-if="!modal">
 			<h1 class="container__header__title">Добавление товара</h1>
 		</div>
 		<div class="container__main">
+			<div class="container__main__title" v-if="modal">
+				<h1>Добавление товара</h1>
+				<div class="cross" @click="closeModal"></div>
+			</div>
 			<div class="container__main__row">
 				<label for="productName">
 					<p>Наименование товара<span>*</span></p>
@@ -47,14 +51,25 @@ export default {
   		productName: '',
   		productDescription: '',
   		productPhotoLink: '',
-  		productPrice: null,
+  		productPrice: '',
   		isInvalidProductName: false,
   		isInvalidProductPhotoLink: false,
   		isInvalidProductPrice: false,
   	}
   },
 
+  props: {
+  	modal: {
+  		type: Boolean,
+  		default: false
+  	}
+  },
+
   methods: {
+  	closeModal() {
+  		this.$emit('close')
+  	},
+
   	addProduct() {
   		if (this.validate()) {
   			let card = {
@@ -65,6 +80,10 @@ export default {
   			}
   			this.$root.$refs.productCard__component.cards.push(card)
   			this.$root.$refs.productCard__component.saveData()
+			  this.$root.$refs.index_component.showConfirmModal = true
+			  setTimeout(() => {
+			  	this.$root.$refs.index_component.showConfirmModal = false
+			  }, 3000)
   		}
   	},
 
@@ -108,6 +127,10 @@ export default {
 		width: 100%;
 		margin-right: 8px;
 
+		@media screen and (max-width: 449px) {
+			margin: 0;
+		}
+
 		&__header {
 
 			&__title{
@@ -116,6 +139,16 @@ export default {
 				font-size: 28px;
 				line-height: 35px;
 				color: rgba(63, 63, 63, 1);
+
+				@media screen and (max-width: 1199px) {
+					font-size: 23px;
+					line-height: 30px;
+				}
+
+				@media screen and (max-width: 767px) {
+					font-size: 20px;
+					line-height: 27px;
+				}
 			}
 		}
 
@@ -125,6 +158,55 @@ export default {
 			box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04), 0px 6px 10px rgba(0, 0, 0, 0.02);
 			border-radius: 4px;
 			padding: 24px;
+
+			&__title {
+				margin-bottom: 20px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+
+				h1 {
+					font-family: 'Source Sans Pro', sans-serif;
+					font-weight: 600;
+					font-size: 20px;
+					line-height: 27px;
+					color: rgba(63, 63, 63, 1);
+				}
+
+				.cross {
+					position: relative;
+					width: 20px;
+					height: 20px;
+					border: 1px solid #000;
+					border-radius: 10px;
+					cursor: pointer;
+					transition: all .2s ease;
+
+					&:after, &:before {
+						content: '';
+						width: 1px;
+						height: 10px;
+						background: #000;
+						position: absolute;
+					}
+
+					&:after {
+						top: calc(50% - 5px);
+						left: calc(50% - 1px);
+						transform: rotate(45deg);
+					}
+
+					&:before {
+						top: calc(50% - 5px);
+						left: calc(50% - 1px);
+						transform: rotate(-45deg);
+					}
+
+					&:hover {
+						transform: scale(1.1);
+					}
+				}
+			}
 
 			&__row {
 				margin-bottom: 16px;

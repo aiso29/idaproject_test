@@ -63,6 +63,18 @@ export default {
 
 		&__card {
 			width: calc(33% - 16px);
+
+			@media screen and (min-width: 1700px) {
+				width: calc(25% - 16px);
+			}
+
+			@media screen and (max-width: 1299px) {
+				width: calc(50% - 16px);
+			}
+
+			@media screen and (max-width: 999px) {
+        width: 100%;
+      }
 		}
 	}
 </style>
